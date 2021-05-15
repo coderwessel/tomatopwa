@@ -10,7 +10,7 @@ const ResetButton: React.FC<IResetButtonProps> = ({ handler }) => {
     <button
       id="reset"
       onClick={handler}
-      className="col-12 bi bi-arrow-repeat"
+      className="btn col-12 bi bi-arrow-repeat btn-secondary"
     ></button>
   );
 };

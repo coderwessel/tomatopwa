@@ -23,8 +23,8 @@ const App: React.FC = (): JSX.Element => {
       minutes: 25,
       seconds: 0,
     },
-    breakLength: 5,
-    sessionLength: 25,
+    breakLength: 300,
+    sessionLength: 25 * 60,
     // alarm: { active: false, started: false },
   };
 
@@ -55,8 +55,8 @@ const App: React.FC = (): JSX.Element => {
     updateActiveTimer({
       paused: true,
       mode: TimerMode.Session,
-      minutes: initialState.sessionLength,
-      seconds: 0,
+      minutes: Math.floor(initialState.sessionLength / 60),
+      seconds: initialState.sessionLength % 60,
     });
     stopAudio();
   };
@@ -68,17 +68,25 @@ const App: React.FC = (): JSX.Element => {
   };
 
   const handlerBreakLength = (value: number) => {
-    if (value < 1 || value > 60) return;
+    if (value < 1 || value > 3600) return;
     updateBreakLength(value);
     if (activeTimer.paused && activeTimer.mode === TimerMode.Break)
-      updateActiveTimer({ ...activeTimer, minutes: value, seconds: 0 });
+      updateActiveTimer({
+        ...activeTimer,
+        minutes: Math.floor(value / 60),
+        seconds: value % 60,
+      });
   };
 
   const handlerSessionLength = (value: number) => {
-    if (value < 1 || value > 60) return;
+    if (value < 1 || value > 3600) return;
     updateSessionLength(value);
     if (activeTimer.paused && activeTimer.mode === TimerMode.Session)
-      updateActiveTimer({ ...activeTimer, minutes: value, seconds: 0 });
+      updateActiveTimer({
+        ...activeTimer,
+        minutes: Math.floor(value / 60),
+        seconds: value % 60,
+      });
   };
 
   const updateTimerFunction = () => {
@@ -107,12 +115,19 @@ const App: React.FC = (): JSX.Element => {
               ? TimerMode.Break
               : TimerMode.Session;
           const toggleMinutes =
-            toggleTimerMode === TimerMode.Break ? breakLength : sessionLength;
+            toggleTimerMode === TimerMode.Break
+              ? Math.floor(breakLength / 60)
+              : Math.floor(sessionLength / 60);
+
+          const toggleSeconds =
+            toggleTimerMode === TimerMode.Break
+              ? breakLength % 60
+              : sessionLength % 60;
 
           updateActiveTimer({
             ...activeTimer,
             minutes: toggleMinutes,
-            seconds: 0,
+            seconds: toggleSeconds,
             mode: toggleTimerMode,
             paused: false,
           });
@@ -185,7 +200,7 @@ const App: React.FC = (): JSX.Element => {
   return (
     <div>
       <div className="row-center">
-        <Title title="My Pomodoro" />
+        <Title title="Pomodoro Timer" />
       </div>
       <div className="row">
         <div className="col-3 offset-3">
@@ -210,6 +225,7 @@ const App: React.FC = (): JSX.Element => {
             name={activeTimer.mode === TimerMode.Session ? "Session" : "Break"}
             minutes={activeTimer.minutes}
             seconds={activeTimer.seconds}
+            showBreak={activeTimer.mode === TimerMode.Break}
           />
         </div>
         <Alarm

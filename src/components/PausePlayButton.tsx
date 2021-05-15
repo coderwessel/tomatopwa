@@ -8,7 +8,11 @@ type IPausePlayButtonProps = {
 };
 const PausePlayButton: React.FC<IPausePlayButtonProps> = ({ handler }) => {
   return (
-    <button id="start_stop" className="col-12" onClick={handler}>
+    <button
+      id="start_stop"
+      className="btn col-12 btn-primary"
+      onClick={handler}
+    >
       <i className="bi bi-play-circle-fill" />
       <i className="bi bi-pause-circle-fill" />
     </button>

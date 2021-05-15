@@ -10,7 +10,7 @@ type ITitleProps = {
 const Title: React.FC<ITitleProps> = ({ title }) => {
   //use local state
   return (
-    <h1 className="text-center">
+    <h1 className="text-center text-danger">
       {title}
       <img src={minitomato} height="75em" alt="" />
     </h1>
