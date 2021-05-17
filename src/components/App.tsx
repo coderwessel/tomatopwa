@@ -200,17 +200,17 @@ const App: React.FC = (): JSX.Element => {
   return (
     <div>
       <div className="row-center">
-        <Title title="Pomodoro Timer" />
+        <Title title="Timer" />
       </div>
       <div className="row">
-        <div className="col-3 offset-3">
+        <div className="col-5 offset-1">
           <CounterSetter
             name="break"
             value={breakLength}
             onUpdate={handlerBreakLength}
           />
         </div>
-        <div className="col-3">
+        <div className="col-5">
           <CounterSetter
             name="session"
             value={sessionLength}
@@ -219,7 +219,7 @@ const App: React.FC = (): JSX.Element => {
         </div>
       </div>
       <div className="row-center w-40 mt-1">
-        <div className="col-6 offset-3">
+        <div className="col-10 offset-1">
           <Timer
             paused={activeTimer.paused}
             name={activeTimer.mode === TimerMode.Session ? "Session" : "Break"}
@@ -236,10 +236,10 @@ const App: React.FC = (): JSX.Element => {
         />
       </div>
       <div className="row">
-        <div className="col-3 offset-3 mt-1">
+        <div className="col-6 offset-1 mt-1">
           <PausePlayButton handler={pausePlayHandler} />
         </div>
-        <div className="col-3 mt-1">
+        <div className="col-4 mt-1">
           <ResetButton handler={resetHandler} />
         </div>
       </div>
